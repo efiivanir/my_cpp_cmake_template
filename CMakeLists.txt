@@ -18,7 +18,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(ENABLE_TESTING "Enable a Unit Testing Build" ON)
 
-set(LIBRARY_NAME "Library")
 set(EXECUTABLE_NAME "${MY_PROJECT}")
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
@@ -87,3 +86,17 @@ if(ENABLE_TESTING)
     add_subdirectory(tests)
 endif()
 
+# INSTALL TARGETS
+
+install(
+    TARGETS ${EXECUTABLE_NAME}
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+
+install(
+    TARGETS "LibFoo" "LibBar"
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)

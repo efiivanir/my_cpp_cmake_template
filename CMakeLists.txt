@@ -10,20 +10,38 @@ project(
 set(CMAKE_BUILD_TYPE Debug CACHE PATH "" FORCE)
 set(CMAKE_GENERATOR "Unix Makefiles" CACHE PATH "" FORCE)
 set(CMAKE_CXX_COMPILER /usr/bin/g++-14 CACHE PATH "" FORCE) 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -Wshadow -Wformat=2 -Wcast-align -Wconversion -Wsign-conversion -Wnull-dereference" CACHE PATH "" FORCE)
 
+# Global CMake variables are set here
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(ENABLE_TESTING "Enable a Unit Testing Build" ON)
+# Options
+
+# Use this options at target_set_warnings function
+option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
+option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
+
+option(ENABLE_TESTING "Enable a Unit Testing build." ON)
+option(ENABLE_COVERAGE "Enable a Code Coverage build." ON)
+option(ENABLE_BENCH "Enable a Code Benchmark build." ON)
+
+
 
 set(EXECUTABLE_NAME "${MY_PROJECT}")
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 #include(AddGitSubmodule)
 include(FetchContent)
+include(DisplayVars)
 #include(Docs)
+
+if(ENABLE_WARNINGS)
+    include(Warnings)
+endif()
+
+display_vars()
 
 message(STATUS "--------------------------------------")
 message(STATUS "Importing nlohmann_json")
@@ -65,6 +83,17 @@ FetchContent_Declare(
     GIT_SHALLOW TRUE)
 FetchContent_MakeAvailable(cxxopts)
 
+
+message(STATUS "--------------------------------------")
+message(STATUS "Importing googletest")
+message(STATUS "--------------------------------------")
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG v1.15.2
+    GIT_SHALLOW TRUE)
+FetchContent_MakeAvailable(googletest)
+
 if(ENABLE_TESTING)
     message(STATUS "--------------------------------------")
     message(STATUS "Importing Catch2")
@@ -78,12 +107,29 @@ if(ENABLE_TESTING)
     list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 endif()
 
+if(ENABLE_BENCH)
+    message(STATUS "--------------------------------------")
+    message(STATUS "Importing benchmark")
+    message(STATUS "--------------------------------------")
+    FetchContent_Declare(
+        benchmark
+        GIT_REPOSITORY https://github.com/google/benchmark
+        GIT_TAG v1.9.1
+        GIT_SHALLOW TRUE)
+    FetchContent_MakeAvailable(benchmark)
+endif()
+
+
 add_subdirectory(src)
 add_subdirectory(app)
 if(ENABLE_TESTING)
     include(CTest)
     enable_testing()
     add_subdirectory(tests)
+endif()
+
+if(ENABLE_BENCH)
+    add_subdirectory(bench)
 endif()
 
 # INSTALL TARGETS

@@ -25,12 +25,12 @@ int main(int argc, char **argv)
               << "." << SPDLOG_VER_PATCH << '\n';
     std::cout << "\n\nUsage Example:\n";
 
-    // Compiler Warning and clang tidy error
-    // std::int32_t i = 0;
+    
+    std::int32_t i = 0;
 
-    // Adress Sanitizer should see this
-    // char x[10];
-    // x[11] = 1;
+    
+    char x[10];
+    x[11] = 1;
 
     std::string project_name{"Stam Project"};
     std::string project_version{"1.1.1.1.1.1"};

@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 
+set(CMAKE_BUILD_TYPE Debug CACHE PATH "" FORCE)
+set(CMAKE_GENERATOR "Unix Makefiles" CACHE PATH "" FORCE)
+set(CMAKE_CXX_COMPILER /usr/bin/g++-14 CACHE PATH "" FORCE) 
+
 set(MY_PROJECT Please_Change)
 
 project(
@@ -7,9 +11,7 @@ project(
     VERSION 1.0.0
     LANGUAGES C CXX)
 
-set(CMAKE_BUILD_TYPE Debug CACHE PATH "" FORCE)
-set(CMAKE_GENERATOR "Unix Makefiles" CACHE PATH "" FORCE)
-set(CMAKE_CXX_COMPILER /usr/bin/g++-14 CACHE PATH "" FORCE) 
+
 
 # Global CMake variables are set here
 set(CMAKE_CXX_STANDARD 23)
@@ -27,7 +29,12 @@ option(ENABLE_TESTING "Enable a Unit Testing build." ON)
 option(ENABLE_COVERAGE "Enable a Code Coverage build." ON)
 option(ENABLE_BENCH "Enable a Code Benchmark build." ON)
 
+option(ENABLE_SANITIZE_ADDR "Enable address sanitize." ON)
+option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
+option(ENABLE_SANITIZE_LEAK "Enable leak sanitize." ON)
+option(ENABLE_SANITIZE_THREAD "Enable thread sanitize." OFF)
 
+option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 
 set(EXECUTABLE_NAME "${MY_PROJECT}")
 
@@ -39,6 +46,18 @@ include(DisplayVars)
 
 if(ENABLE_WARNINGS)
     include(Warnings)
+endif()
+
+if(ENABLE_SANITIZE_ADDR
+   OR ENABLE_SANITIZE_UNDEF
+   OR ENABLE_SANITIZE_LEAK
+   OR ENABLE_SANITIZE_THREAD)
+    include(Sanitizer)
+    add_sanitizer_flags()
+endif()
+
+if(ENABLE_LTO)
+    include(LTO)
 endif()
 
 display_vars()

@@ -35,9 +35,13 @@ if(ENABLE_COVERAGE)
     set(COVERAGE_EXTRA_FLAGS)
     set(COVERAGE_DEPENDENCIES "UnitTestFoo" "UnitTestBar")
 
-    # setup_target_for_coverage_gcovr_html(
-    #     ${COVERAGE_MAIN}
-    #     ctest
-    #     ${COVERAGE_DEPENDENCIES}
-    #     ${CMAKE_SOURCE_DIR})
+#    setup_target_for_coverage_gcovr_html(
+#        NAME
+#        ${COVERAGE_MAIN}
+#        EXECUTABLE
+#        ctest
+#        DEPENDENCIES
+#        ${COVERAGE_DEPENDENCIES}
+#        BASE_DIRECTORY
+#        ${CMAKE_SOURCE_DIR})
 endif()

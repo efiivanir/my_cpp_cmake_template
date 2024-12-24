@@ -26,11 +26,13 @@ int main(int argc, char **argv)
     std::cout << "\n\nUsage Example:\n";
 
     
-    std::int32_t i = 0;
+    // std::int32_t i = 0;
 
     
-    char x[10];
-    x[11] = 1;
+    // char x[10];
+    // x[11] = 1;
+    // int y[2];
+    // y[2] = 12;
 
     std::string project_name{"Stam Project"};
     std::string project_version{"1.1.1.1.1.1"};

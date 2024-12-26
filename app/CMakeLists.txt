@@ -27,3 +27,7 @@ if(${ENABLE_LTO})
         ENABLE
         ON)
 endif()
+
+if(${ENABLE_CLANG_TIDY})
+    add_clang_tidy_to_target(${EXECUTABLE_NAME})
+endif()

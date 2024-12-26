@@ -1,10 +1,10 @@
 # my_cpp_cmake_template
 **Personal Template For C++ Cmake Projects**
-This is an on going project, I use this template gor my C++ projects, add features according to my knoledge.
+This is an on going project, I use this template for my C++ projects, add features according to my knoledge.
 
 ## Use
 
-Add this bash function into your .bashrc file, Them run this function with project name
+Add this bash function into your .bashrc file, Then run this function with project name
 
 ```shell
 function cm-create-project {

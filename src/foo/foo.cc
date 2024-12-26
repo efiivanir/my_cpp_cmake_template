@@ -4,6 +4,11 @@
 
 #include "foo.h"
 
+/**
+ * @brief Implement Hello world
+ * 
+ * @return int 
+ */
 int print_hello_world()
 {
     std::cout << "Cout: Hello World" << '\n';
@@ -12,6 +17,12 @@ int print_hello_world()
     return 1;
 }
 
+/**
+ * @brief Run factorial 
+ * 
+ * @param number 
+ * @return unsigned int 
+ */
 unsigned int factorial(unsigned int number)
 {
     return number <= 1 ? 1 : factorial(number - 1) * number;

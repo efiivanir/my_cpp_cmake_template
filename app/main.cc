@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     std::cout << "\n\nUsage Example:\n";
 
     
-    // std::int32_t i = 0;
+    std::int32_t i;
 
     
     // char x[10];

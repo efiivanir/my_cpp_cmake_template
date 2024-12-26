@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(CMAKE_BUILD_TYPE Debug CACHE PATH "" FORCE)
-set(CMAKE_GENERATOR "Unix Makefiles" CACHE PATH "" FORCE)
-set(CMAKE_CXX_COMPILER /usr/bin/g++-14 CACHE PATH "" FORCE) 
-
 set(MY_PROJECT Please_Change)
 
 project(
@@ -25,28 +21,38 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
 option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
 
-option(ENABLE_TESTING "Enable a Unit Testing build." ON)
-option(ENABLE_COVERAGE "Enable a Code Coverage build." ON)
-option(ENABLE_BENCH "Enable a Code Benchmark build." ON)
+option(ENABLE_TESTING "Enable a Unit Testing build." OFF)
+option(ENABLE_COVERAGE "Enable a Code Coverage build." OFF)
+
+option(ENABLE_BENCH "Enable a Code Benchmark build." OFF)
+
+option(ENABLE_CLANG_TIDY "Enable to add clang tidy." ON)
 
 option(ENABLE_SANITIZE_ADDR "Enable address sanitize." ON)
 option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." ON)
 option(ENABLE_SANITIZE_LEAK "Enable leak sanitize." ON)
 option(ENABLE_SANITIZE_THREAD "Enable thread sanitize." OFF)
 
+option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
+option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
+
 option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
 
 set(EXECUTABLE_NAME "${MY_PROJECT}")
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
-#include(AddGitSubmodule)
+
 include(FetchContent)
 include(DisplayVars)
-#include(Docs)
+include(Tools)
+include(Docs)
 
 if(ENABLE_WARNINGS)
     include(Warnings)
 endif()
+
+add_cmake_format_target()
+add_clang_format_target()
 
 if(ENABLE_SANITIZE_ADDR
    OR ENABLE_SANITIZE_UNDEF
